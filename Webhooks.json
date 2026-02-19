@@ -1,0 +1,93 @@
+local HttpService = game:GetService("HttpService")
+local Players = game:GetService("Players")
+local Workspace = game:GetService("Workspace")
+
+-- COLOQUE SUAS WEBHOOKS AQUI
+local MOON_WEBHOOK = "https://discord.com/api/webhooks/1474092198625677435/1sOt6zwY5vFpAB5RQLMGdDrYrsbG6piDzID5QTAZjkUXCKrFfc9Ct-V9jzcypevvED0B"
+local FRUIT_WEBHOOK = "https://discord.com/api/webhooks/1474092509419274423/S3v6wk9-0ipypRmlOhwQsmXhNz6mLV0FJXApuNZ3mnZV7r5Cv5VFDiUCn4BBXajB2_Px"
+local SWORD_WEBHOOK = "https://discord.com/api/webhooks/1474092608258048131/wAd0nyhQ1NtJ0qSzRf7ICTQ71jlOQKVEbbkVbXR_m4IHQvNJIbpDwwcL0hPRj_lnkS3P"
+
+local JobId = game.JobId
+local PlaceId = game.PlaceId
+
+local sentMoon = false
+local sentFruit = {}
+local sentSword = false
+
+local function SendWebhook(url, title, description, color)
+    local data = {
+        ["embeds"] = {{
+            ["title"] = title,
+            ["description"] = description,
+            ["color"] = color,
+            ["footer"] = {
+                ["text"] = "Redz Hub Global Notifier"
+            }
+        }}
+    }
+
+    request({
+        Url = url,
+        Method = "POST",
+        Headers = {
+            ["Content-Type"] = "application/json"
+        },
+        Body = HttpService:JSONEncode(data)
+    })
+end
+
+-- 🌙 MOON CHECK
+task.spawn(function()
+    while task.wait(10) do
+        pcall(function()
+            if not sentMoon and Workspace:FindFirstChild("Moon") then
+                sentMoon = true
+                SendWebhook(
+                    MOON_WEBHOOK,
+                    "🌙 Moon Server Detected",
+                    "JobId: "..JobId.."\nPlaceId: "..PlaceId.."\nPlayers: "..#Players:GetPlayers(),
+                    16776960
+                )
+            end
+        end)
+    end
+end)
+
+-- 🍎 FRUIT CHECK
+task.spawn(function()
+    while task.wait(5) do
+        pcall(function()
+            for _, obj in ipairs(Workspace:GetChildren()) do
+                if obj:IsA("Tool") and string.find(obj.Name, "Fruit") then
+                    if not sentFruit[obj.Name] then
+                        sentFruit[obj.Name] = true
+                        SendWebhook(
+                            FRUIT_WEBHOOK,
+                            "🍎 Fruit Spawned",
+                            "Fruit: "..obj.Name.."\nJobId: "..JobId.."\nPlayers: "..#Players:GetPlayers(),
+                            65280
+                        )
+                    end
+                end
+            end
+        end)
+    end
+end)
+
+-- ⚔ SWORD DEALER CHECK
+task.spawn(function()
+    while task.wait(8) do
+        pcall(function()
+            local dealer = Workspace:FindFirstChild("SwordDealer")
+            if dealer and not sentSword then
+                sentSword = true
+                SendWebhook(
+                    SWORD_WEBHOOK,
+                    "⚔ Sword Dealer Spawned",
+                    "JobId: "..JobId.."\nPlayers: "..#Players:GetPlayers(),
+                    16711680
+                )
+            end
+        end)
+    end
+end)
