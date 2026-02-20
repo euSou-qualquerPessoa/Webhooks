@@ -4,7 +4,7 @@ local Workspace = game:GetService("Workspace")
 
 -- COLOQUE SUAS WEBHOOKS AQUI
 local MOON_WEBHOOK = "https://discord.com/api/webhooks/1474092198625677435/1sOt6zwY5vFpAB5RQLMGdDrYrsbG6piDzID5QTAZjkUXCKrFfc9Ct-V9jzcypevvED0B"
-local FRUIT_WEBHOOK = "https://discord.com/api/webhooks/1474092509419274423/S3v6wk9-0ipypRmlOhwQsmXhNz6mLV0FJXApuNZ3mnZV7r5Cv5VFDiUCn4BBXajB2_Px"
+local FRUIT_WEBHOOK = "https://discord.com/api/webhooks/1474536157156085940/8WlUVGbl59yO4deuUvI1Q8yVQ8a2dShfpE5qvG_ld1yQx-cRAhIoz7Z1DVzrag7UfdSp"
 local SWORD_WEBHOOK = "https://discord.com/api/webhooks/1474092608258048131/wAd0nyhQ1NtJ0qSzRf7ICTQ71jlOQKVEbbkVbXR_m4IHQvNJIbpDwwcL0hPRj_lnkS3P"
 
 local JobId = game.JobId
